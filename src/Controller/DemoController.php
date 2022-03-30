@@ -15,17 +15,17 @@ class DemoController extends AbstractController
     public function index(UserRepository $userRepository, EntityManagerInterface $em): Response
     {
         // $user = new User;
-        // $user->setName('New User');
-        // $user->setEmail('newuser@gmail.com');
+        // $user->setName('Carlos Cool');
+        // $user->setEmail('carloscool@gmail.com');
         // $user->setPassword('$2y$13$VOV6Zs0DFNHSmU8Mk7DCwuHRe//dgvKaShMMKguZq9.zZVG2A6Ate');
 
         // $userRepository->add($user);
 
-        $user = $userRepository->findOneBy(['name' => 'New User']);
+        // $user = $userRepository->find(6);
 
-        $user->setName('Nouvel Utilisateur');
+        // $user->setName('Nouvel Utsssilisateur');
 
-        $em->flush();
+        // $em->flush();
 
         return $this->json([
             'message' => 'Welcome to your new controller!',
