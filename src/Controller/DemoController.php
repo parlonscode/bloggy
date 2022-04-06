@@ -27,9 +27,6 @@ class DemoController extends AbstractController
 
         // $em->flush();
 
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/DemoController.php',
-        ]);
+        return $this->render('demo.html.twig');
     }
 }
