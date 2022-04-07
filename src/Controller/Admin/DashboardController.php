@@ -20,7 +20,10 @@ class DashboardController extends AbstractDashboardController
     #[IsGranted('ROLE_ADMIN')]
     public function index(): Response
     {
-        return $this->redirect($this->adminUrlGenerator->setController(PostCrudController::class)->generateUrl());
+        return $this->redirect(
+            $this->adminUrlGenerator->setController(PostCrudController::class)
+                ->generateUrl()
+        );
     }
 
     public function configureDashboard(): Dashboard
