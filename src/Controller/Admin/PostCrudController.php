@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Post;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
@@ -17,6 +18,13 @@ class PostCrudController extends AbstractCrudController
         return Post::class;
     }
 
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters->add('createdAt')
+            ->add('publishedAt')
+            ->add('author')
+        ;
+    }
     
     public function configureFields(string $pageName): iterable
     {
@@ -28,5 +36,4 @@ class PostCrudController extends AbstractCrudController
             AssociationField::new('author'),
         ];
     }
-    
 }
