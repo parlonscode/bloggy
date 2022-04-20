@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Post;
+use App\Entity\User;
 use App\Controller\Admin\PostCrudController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,9 +35,13 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+        yield MenuItem::section();
+        yield MenuItem::linkToUrl('Visit public website', 'fa fa-home', '/');
 
         yield MenuItem::section('Blog');
         yield MenuItem::linkToCrud('Posts', 'fa fa-file-text', Post::class);
+
+        yield MenuItem::section('Users');
+        yield MenuItem::linkToCrud('Users', 'fa fa-user', User::class);
     }
 }
