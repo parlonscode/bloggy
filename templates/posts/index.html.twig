@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Welcome to Bloggy!!!</h1>
+
+    {% for post in posts %}
+        <article>
+            {# TODO: add a link #}
+            <h2>{{ post.title }}</h2>
+
+            {# TODO: truncate body #}
+            <p>{{ post.body }}</p>
+        </article>
+    {% endfor %}
+{% endblock %}
