@@ -6,7 +6,7 @@
     {% for post in posts %}
         <article>
             {# TODO: add a link #}
-            <h2>{{ post.title }}</h2>
+            <h2><a href="{{ path('app_posts_show', {slug: post.slug}) }}">{{ post.title }}</a></h2>
 
             {# TODO: truncate body #}
             <p>{{ post.body }}</p>
