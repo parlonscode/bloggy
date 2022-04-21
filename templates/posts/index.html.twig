@@ -5,11 +5,15 @@
 
     {% for post in posts %}
         <article>
-            {# TODO: add a link #}
-            <h2><a href="{{ path('app_posts_show', {slug: post.slug}) }}">{{ post.title }}</a></h2>
+            <h2>
+                <a href="{{ path('app_posts_show', {slug: post.slug}) }}">
+                    {{ post.title }}
+                </a>
+            </h2>
 
-            {# TODO: truncate body #}
-            <p>{{ post.body }}</p>
+            <p>Published {{ post.publishedAt|date }} by {{ post.author.email }}</p>
+
+            <p>{{ post.body|u.truncate(50, '@@') }}</p>
         </article>
     {% endfor %}
 {% endblock %}
