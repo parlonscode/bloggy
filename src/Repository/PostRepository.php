@@ -3,10 +3,12 @@
 namespace App\Repository;
 
 use App\Entity\Post;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Post|null find($id, $lockMode = null, $lockVersion = null)
@@ -43,6 +45,14 @@ class PostRepository extends ServiceEntityRepository
         if ($flush) {
             $this->_em->flush();
         }
+    }
+
+    public function findAllPublished(): Collection
+    {
+        $criteria = new Criteria;
+        $criteria->andWhere(Criteria::expr()->neq('publishedAt', null));
+
+        return $this->matching($criteria);
     }
 
     // /**

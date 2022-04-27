@@ -13,9 +13,7 @@ class PostsController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(PostRepository $postRepository): Response
     {
-        // TODO: filter to select only published posts
-        // order by publishedAt DESC
-        $posts = $postRepository->findAll();
+        $posts = $postRepository->findAllPublished();
 
         return $this->render('posts/index.html.twig', compact('posts'));
     }
