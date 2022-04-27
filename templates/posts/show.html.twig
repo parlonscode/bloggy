@@ -7,7 +7,7 @@
         <h1>{{ post.title }}</h1>
 
         <p>
-            Published <time datetime="{{ post.publishedAt|date('Y-m-d H:i:s') }}">{{ post.publishedAt|date }}</time> by {{ post.author.email }}
+            Published <time datetime="{{ post.publishedAt|date('Y-m-d H:i') }}">{{ post.publishedAt|date }}</time> by {{ post.author.email }}
         </p>
 
         <p>{{ post.body|nl2br }}</p>
