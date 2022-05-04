@@ -10,17 +10,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PostsController extends AbstractController
 {
+    public function __construct(private PostRepository $postRepository) {}
+
     #[Route('/', name: 'app_home')]
-    public function index(PostRepository $postRepository): Response
+    public function index(): Response
     {
-        $posts = $postRepository->findAllPublishedOrdered();
+        $posts = $this->postRepository->findAllPublishedOrdered();
 
         return $this->render('posts/index.html.twig', compact('posts'));
     }
 
-    #[Route('/posts/{slug}', name: 'app_posts_show')]
-    public function show(Post $post): Response
+    #[Route('/posts/{year}/{month}/{day}/{slug}', name: 'app_posts_show')]
+    public function show(int $year, int $month, int $day, string $slug): Response
     {
+        $post = $this->postRepository->findOneByPublishDateAndSlug($year, $month, $day, $slug);
+
         return $this->render('posts/show.html.twig', compact('post'));
     }
 }
