@@ -25,6 +25,10 @@ class PostsController extends AbstractController
     {
         $post = $this->postRepository->findOneByPublishDateAndSlug($year, $month, $day, $slug);
 
+        if (is_null($post)) {
+            throw $this->createNotFoundException('Post not found!');
+        }
+
         return $this->render('posts/show.html.twig', compact('post'));
     }
 }
