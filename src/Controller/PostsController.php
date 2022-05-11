@@ -20,7 +20,17 @@ class PostsController extends AbstractController
         return $this->render('posts/index.html.twig', compact('posts'));
     }
 
-    #[Route('/posts/{year<[0-9]{4}>}/{month<[0-9]{2}>}/{day<[0-9]{2}>}/{slug<[a-z0-9\-]+>}', name: 'app_posts_show', methods: ['GET'])]
+    #[Route(
+        '/posts/{year}/{month}/{day}/{slug}',
+        name: 'app_posts_show',
+        requirements: [
+            'year' => '[0-9]{4}',
+            'month' => '[0-9]{2}',
+            'day' => '[0-9]{2}',
+            'slug' => '[a-z0-9\-]+',
+        ],
+        methods: ['GET']
+    )]
     public function show(int $year, int $month, int $day, string $slug): Response
     {
         $post = $this->postRepository->findOneByPublishDateAndSlug($year, $month, $day, $slug);
