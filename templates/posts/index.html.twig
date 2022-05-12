@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Welcome to Bloggy!!!</h1>
+    <h1>My Blog ({{ pagination.getTotalItemCount }} Posts)</h1>
 
-    {% for post in posts %}
+    {% for post in pagination %}
         <article>
             <h2>
                 <a href="{{ path('app_posts_show', post.pathParams) }}">
@@ -18,4 +18,8 @@
             <p>{{ post.body|u.truncate(50, '...') }}</p>
         </article>
     {% endfor %}
+
+    <div>
+         {{ knp_pagination_render(pagination) }}
+    </div>
 {% endblock %}
