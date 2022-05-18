@@ -19,10 +19,12 @@ class PostsController extends AbstractController
     {
         $query = $this->postRepository->getAllPublishedOrderedQuery();
 
+        $page = $request->query->getInt('page', 1);
+
         $pagination = $paginator->paginate(
             $query,
-            $request->query->getInt('page', 1),
-            2
+            $page,
+            Post::NUM_ITEMS_PER_PAGE
         );
 
         return $this->render('posts/index.html.twig', compact('pagination'));
