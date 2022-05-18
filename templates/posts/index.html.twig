@@ -1,17 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>My Blog ({{ pagination.getTotalItemCount }} Posts)</h1>
-
     {% for post in pagination %}
-        <article>
+        <article class="mb-5">
             <h2>
-                <a href="{{ path('app_posts_show', post.pathParams) }}">
+                <a href="{{ path('app_posts_show', post.pathParams) }}" class="text-decoration-none">
                     {{ post.title }}
                 </a>
             </h2>
 
-            <p>
+            <p class="text-muted fst-italic">
                 Published <time datetime="{{ post.publishedAt|date('Y-m-d H:i') }}">{{ post.publishedAt|date }}</time> by {{ post.author.email }}
             </p>
 

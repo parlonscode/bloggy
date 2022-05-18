@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Bloggy{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
@@ -16,6 +17,22 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div class="pt-5 container">
+            <header>
+                <h1>⭐ <a href="{{ path('app_home') }}">My Blog</a></h1>
+            </header>
+
+            <hr class="text-secondary">
+
+            <main role="main">
+                {% block body %}{% endblock %}
+            </main>
+
+            <footer class="my-5">
+                <p class="text-muted">
+                    Built with <span class="text-danger">&hearts;</span> by <a href="https://parlonscode.com">Parlons Code</a>.
+                </p>
+            </footer>
+        </div>
     </body>
 </html>
