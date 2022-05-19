@@ -17,7 +17,7 @@ class DashboardController extends AbstractDashboardController
 {
     public function __construct(private AdminUrlGenerator $adminUrlGenerator) {}
 
-    #[Route('/admin', name: 'app_admin')]
+    #[Route('%app.admin_path%', name: 'app_admin')]
     #[IsGranted('ROLE_ADMIN')]
     public function index(): Response
     {
