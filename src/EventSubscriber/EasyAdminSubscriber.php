@@ -12,18 +12,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
 {
     public function __construct(private UserPasswordHasherInterface $userPasswordHasherInterface) {}
 
-    public function onBeforeEntityPersistedEvent(BeforeEntityPersistedEvent $event): void
-    {
-        $entityInstance = $event->getEntityInstance();
-
-        if ($entityInstance instanceof User && $entityInstance->getPlainPassword()) {
-            $hashedPassword = $this->userPasswordHasherInterface->hashPassword($entityInstance, $entityInstance->getPlainPassword());
-
-            $entityInstance->setPassword($hashedPassword);
-        }
-    }
-
-    public function onBeforeEntityUpdatedEvent(BeforeEntityUpdatedEvent $event): void
+    public function updateUserPassword(BeforeEntityPersistedEvent|BeforeEntityUpdatedEvent $event): void
     {
         $entityInstance = $event->getEntityInstance();
 
@@ -37,8 +26,8 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            BeforeEntityPersistedEvent::class => 'onBeforeEntityPersistedEvent',
-            BeforeEntityUpdatedEvent::class => 'onBeforeEntityUpdatedEvent',
+            BeforeEntityPersistedEvent::class => 'updateUserPassword',
+            BeforeEntityUpdatedEvent::class => 'updateUserPassword',
         ];
     }
 }
