@@ -108,9 +108,7 @@ class Post
     public function getPathParams(): array
     {
         return [
-            'year' => $this->getPublishedAt()->format('Y'),
-            'month' => $this->getPublishedAt()->format('m'),
-            'day' => $this->getPublishedAt()->format('d'),
+            'date' => $this->getPublishedAt()->format('Y-m-d'),
             'slug' => $this->getSlug()
         ];
     }
