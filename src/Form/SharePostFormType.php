@@ -14,10 +14,10 @@ class SharePostFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('sender_name', TextType::class)
-            ->add('sender_email', EmailType::class)
-            ->add('receiver_email', EmailType::class)
-            ->add('sender_comments', TextareaType::class)
+            ->add('sender_name', TextType::class, ['label' => 'Name'])
+            ->add('sender_email', EmailType::class, ['label' => 'Email'])
+            ->add('receiver_email', EmailType::class, ['label' => "Your friend's email"])
+            ->add('sender_comments', TextareaType::class, ['label' => 'Comments'])
         ;
     }
 
