@@ -13,5 +13,5 @@
         <p>{{ post.body|nl2br }}</p>
     </article>
 
-    <a href="{{ path('app_home') }}">Go back to homepage</a>
+    <a href="{{ path('app_posts_share', post.pathParams) }}">Share this post</a>
 {% endblock %}
