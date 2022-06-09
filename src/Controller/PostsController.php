@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\SharePostFormType;
+use Symfony\Component\Mime\Email;
 use App\Repository\PostRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
@@ -61,8 +63,18 @@ class PostsController extends AbstractController
         ],
         methods: ['GET', 'POST']
     )]
-    public function share(Request $request, string $date, string $slug): Response
+    public function share(Request $request, MailerInterface $mailer, string $date, string $slug): Response
     {
+        $email = (new Email)
+            ->from('admin@bloggy.wip')
+            ->to('toto@example.com')
+            ->subject('Test petit test!')
+            ->text('Ceci est un message cool')
+            ->html('<p>Ceci est un message <strong>cool</strong>.</p>');
+
+        $mailer->send($email);
+
+
         $post = $this->postRepository->findOneByPublishDateAndSlug($date, $slug);
 
         if (is_null($post)) {
@@ -71,11 +83,11 @@ class PostsController extends AbstractController
 
         $form = $this->createForm(SharePostFormType::class);
 
-        $form->handleRequest($request);
+        // $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            dd($form->getData());
-        }
+        // if ($form->isSubmitted() && $form->isValid()) {
+        //     dd($form->getData());
+        // }
 
         return $this->renderForm('posts/share.html.twig', compact('form', 'post'));
     }
