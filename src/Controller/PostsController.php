@@ -6,12 +6,14 @@ use App\Entity\Post;
 use App\Form\SharePostFormType;
 use Symfony\Component\Mime\Email;
 use App\Repository\PostRepository;
+use Symfony\Component\Mime\Address;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PostsController extends AbstractController
@@ -65,16 +67,6 @@ class PostsController extends AbstractController
     )]
     public function share(Request $request, MailerInterface $mailer, string $date, string $slug): Response
     {
-        $email = (new Email)
-            ->from('admin@bloggy.wip')
-            ->to('toto@example.com')
-            ->subject('Test petit test!')
-            ->text('Ceci est un message cool')
-            ->html('<p>Ceci est un message <strong>cool</strong>.</p>');
-
-        $mailer->send($email);
-
-
         $post = $this->postRepository->findOneByPublishDateAndSlug($date, $slug);
 
         if (is_null($post)) {
@@ -83,11 +75,37 @@ class PostsController extends AbstractController
 
         $form = $this->createForm(SharePostFormType::class);
 
-        // $form->handleRequest($request);
+        $form->handleRequest($request);
 
-        // if ($form->isSubmitted() && $form->isValid()) {
-        //     dd($form->getData());
-        // }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $postUrl = $this->generateUrl(
+                'app_posts_show',
+                $post->getPathParams(),
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
+
+            $subject = sprintf('%s recommends you to read "%s"', $data['sender_name'], $post->getTitle());
+
+            $message = sprintf(
+                "Read \"%s\" at %s.\n\n%s's comments: %s",
+                $post->getTitle(),
+                $postUrl,
+                $data['sender_name'],
+                $data['sender_comments']
+            );
+
+            $email = (new Email)
+                ->from(new Address('hello@bloggy.wip', 'Bloggy'))
+                ->to($data['receiver_email'])
+                ->subject($subject)
+                ->text($message);
+
+            $mailer->send($email);
+
+            return $this->redirectToRoute('app_home');
+        }
 
         return $this->renderForm('posts/share.html.twig', compact('form', 'post'));
     }
