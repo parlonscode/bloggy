@@ -24,6 +24,8 @@
 
             <hr class="text-secondary">
 
+            {{ include('layouts/partials/_flash_messages.html.twig') }}
+
             <main role="main">
                 {% block body %}{% endblock %}
             </main>
