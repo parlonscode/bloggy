@@ -1,7 +1,10 @@
 <h1>{{ sender_name }} recommends you to read "{{ post.title }}"</h1>
 
 <p>
-    Read "{{ post.title }}" at <a href="#">url</a>.
+    Read "{{ post.title }}" at 
+    <a href="{{ url('app_posts_show', post.pathParams) }}">
+        {{ url('app_posts_show', post.pathParams) }}
+    </a>.
 </p>
 
 {% if sender_comments %}
