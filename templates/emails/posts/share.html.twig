@@ -1,0 +1,11 @@
+<h1>{{ sender_name }} recommends you to read "{{ post.title }}"</h1>
+
+<p>
+    Read "{{ post.title }}" at <a href="#">url</a>.
+</p>
+
+{% if sender_comments %}
+    <h2>{{ sender_name }}'s comments:</h2>
+
+    <p>{{ sender_comments }}</p>
+{% endif %}
