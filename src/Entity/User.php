@@ -16,28 +16,31 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use Timestampable;
-    
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column]
+    private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    #[ORM\Column(length: 255)]
+    private ?string $name;
 
-    #[ORM\Column(type: 'string', length: 180, unique: true)]
-    private $email;
+    #[ORM\Column(length: 180, unique: true)]
+    private ?string $email = null;
 
-    #[ORM\Column(type: 'json')]
-    private $roles = [];
+    #[ORM\Column]
+    private array $roles = [];
 
-    private $plainPassword;
+    private ?string $plainPassword = null;
 
-    #[ORM\Column(type: 'string')]
-    private $password;
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
+    private ?string $password = null;
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Post::class, orphanRemoval: true)]
-    private $posts;
+    private Collection $posts;
 
     public function __construct()
     {
@@ -149,7 +152,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function addPost(Post $post): self
     {
         if (!$this->posts->contains($post)) {
-            $this->posts[] = $post;
+            $this->posts->add($post);
             $post->setAuthor($this);
         }
 

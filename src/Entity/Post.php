@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PostRepository;
 use App\Entity\Traits\Timestampable;
@@ -21,24 +22,24 @@ class Post
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column]
+    private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $title;
+    #[ORM\Column(length: 255)]
+    private ?string $title = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $slug;
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
 
-    #[ORM\Column(type: 'text')]
-    private $body;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $body = null;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $publishedAt;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'posts')]
+    #[ORM\ManyToOne(inversedBy: 'posts')]
     #[ORM\JoinColumn(nullable: false)]
-    private $author;
+    private ?User $author = null;
 
     public function getId(): ?int
     {
