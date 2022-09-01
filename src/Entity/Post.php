@@ -34,8 +34,8 @@ class Post
     #[ORM\Column(type: Types::TEXT)]
     private ?string $body = null;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private $publishedAt;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $publishedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'posts')]
     #[ORM\JoinColumn(nullable: false)]
