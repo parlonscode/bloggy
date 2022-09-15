@@ -3,13 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Post;
-use Doctrine\ORM\Query;
-use Doctrine\ORM\ORMException;
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<Post>
@@ -29,7 +25,7 @@ class PostRepository extends ServiceEntityRepository
     public function add(Post $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
-        
+
         if ($flush) {
             $this->getEntityManager()->flush();
         }
@@ -38,7 +34,7 @@ class PostRepository extends ServiceEntityRepository
     public function remove(Post $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
-        
+
         if ($flush) {
             $this->getEntityManager()->flush();
         }

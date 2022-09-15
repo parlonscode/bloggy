@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Timestampable;
+use App\Repository\PostRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\PostRepository;
-use App\Entity\Traits\Timestampable;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 #[ORM\Table(name: '`posts`')]
@@ -110,7 +110,7 @@ class Post
     {
         return [
             'date' => $this->getPublishedAt()->format('Y-m-d'),
-            'slug' => $this->getSlug()
+            'slug' => $this->getSlug(),
         ];
     }
 }

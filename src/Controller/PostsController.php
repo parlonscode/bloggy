@@ -5,20 +5,21 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\SharePostFormType;
 use App\Repository\PostRepository;
-use Symfony\Component\Mime\Address;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PostsController extends AbstractController
 {
-    public function __construct(private PostRepository $postRepository) {}
+    public function __construct(private PostRepository $postRepository)
+    {
+    }
 
     #[Route('/', name: 'app_home', methods: ['GET'])]
     public function index(Request $request, PaginatorInterface $paginator): Response
@@ -82,7 +83,7 @@ class PostsController extends AbstractController
 
             $subject = sprintf('%s recommends you to read "%s"', $data['sender_name'], $post->getTitle());
 
-            $email = (new TemplatedEmail)
+            $email = (new TemplatedEmail())
                 ->from(
                     new Address(
                         $this->getParameter('app.contact_email'),

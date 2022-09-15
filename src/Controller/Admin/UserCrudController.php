@@ -4,12 +4,12 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -29,7 +29,7 @@ class UserCrudController extends AbstractCrudController
             TextField::new('plainPassword', 'Password')
                 ->setFormType(PasswordType::class)
                 ->onlyOnForms()
-                ->setRequired($pageName === Crud::PAGE_NEW),
+                ->setRequired(Crud::PAGE_NEW === $pageName),
             ChoiceField::new('roles')
                 ->setChoices(array_combine($roles, $roles))
                 ->allowMultipleChoices()
@@ -37,5 +37,4 @@ class UserCrudController extends AbstractCrudController
                 ->renderAsBadges(),
         ];
     }
-    
 }

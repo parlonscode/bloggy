@@ -82,6 +82,15 @@
         "symfony/polyfill-php81": "*"
     },
     "scripts": {
+        "reset-db": [
+            "symfony console doctrine:database:drop --force",
+            "symfony console doctrine:database:create",
+            "symfony console doctrine:migrations:migrate --no-interaction"
+        ],
+        "load-fixtures": [
+            "@reset-db",
+            "symfony console doctrine:fixtures:load --no-interaction"
+        ],
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
@@ -104,6 +113,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "laravel/pint": "^1.2",
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "6.1.*",
         "symfony/css-selector": "6.1.*",

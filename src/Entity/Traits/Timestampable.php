@@ -39,13 +39,13 @@ trait Timestampable
     #[ORM\PrePersist]
     public function onPrePersist(): void
     {
-        $this->setCreatedAt(new \DateTimeImmutable);
-        $this->setUpdatedAt(new \DateTimeImmutable);
+        $this->setCreatedAt(new \DateTimeImmutable());
+        $this->setUpdatedAt(new \DateTimeImmutable());
     }
 
     #[ORM\PreUpdate]
     public function onPreUpdate(): void
     {
-        $this->setUpdatedAt(new \DateTimeImmutable);
+        $this->setUpdatedAt(new \DateTimeImmutable());
     }
 }
