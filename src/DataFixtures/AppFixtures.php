@@ -40,7 +40,9 @@ class AppFixtures extends Fixture
             $post->setBody($faker->paragraph(10));
             $post->setPublishedAt(
                 $faker->boolean(75)
-                ? \DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-50 days', '-10 days'))
+                ? \DateTimeImmutable::createFromMutable(
+                    $faker->dateTimeBetween('-50 days', '-10 days')
+                )
                 : null
             );
             $post->setAuthor($faker->boolean(50) ? $user : $admin);
