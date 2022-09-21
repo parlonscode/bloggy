@@ -5,15 +5,16 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\SharePostFormType;
 use App\Repository\PostRepository;
+use Symfony\Component\Mime\Address;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PostsController extends AbstractController
 {
@@ -46,14 +47,9 @@ class PostsController extends AbstractController
         ],
         methods: ['GET']
     )]
-    public function show(string $date, string $slug): Response
+    #[Entity('post', expr: 'repository.findOneByPublishDateAndSlug(date, slug)')]
+    public function show(Post $post): Response
     {
-        $post = $this->postRepository->findOneByPublishDateAndSlug($date, $slug);
-
-        if (is_null($post)) {
-            throw $this->createNotFoundException('Post not found!');
-        }
-
         return $this->render('posts/show.html.twig', compact('post'));
     }
 
@@ -66,14 +62,9 @@ class PostsController extends AbstractController
         ],
         methods: ['GET', 'POST']
     )]
-    public function share(Request $request, MailerInterface $mailer, string $date, string $slug): Response
+    #[Entity('post', expr: 'repository.findOneByPublishDateAndSlug(date, slug)')]
+    public function share(Request $request, MailerInterface $mailer, Post $post): Response
     {
-        $post = $this->postRepository->findOneByPublishDateAndSlug($date, $slug);
-
-        if (is_null($post)) {
-            throw $this->createNotFoundException('Post not found!');
-        }
-
         $form = $this->createForm(SharePostFormType::class);
 
         $form->handleRequest($request);
