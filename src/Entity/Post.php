@@ -6,6 +6,7 @@ use App\Entity\Traits\Timestampable;
 use App\Repository\PostRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 #[ORM\Table(name: '`posts`')]
@@ -29,6 +30,7 @@ class Post
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
+    #[Gedmo\Slug(fields: ['title'], updatable: false)]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT)]

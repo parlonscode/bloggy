@@ -35,8 +35,7 @@ class AppFixtures extends Fixture
 
         for ($i = 1; $i <= 10; ++$i) {
             $post = new Post();
-            $post->setTitle($title = $faker->unique()->sentence());
-            $post->setSlug($this->slugger->slug(mb_strtolower($title)));
+            $post->setTitle($faker->unique()->sentence());
             $post->setBody($faker->paragraph(10));
             $post->setPublishedAt(
                 $faker->boolean(75)
