@@ -26,7 +26,7 @@ class Post
     private ?string $title = null;
 
     #[ORM\Column(length: 255, unique: true)]
-    #[Gedmo\Slug(fields: ['title'], updatable: false, unique: true)]
+    #[Gedmo\Slug(fields: ['title'], updatable: false)]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT)]
