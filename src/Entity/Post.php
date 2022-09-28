@@ -10,10 +10,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 #[ORM\Table(name: '`posts`')]
-#[ORM\UniqueConstraint(
-    name: 'unique_slug_for_publish_date',
-    columns: ['published_at', 'slug']
-)]
 #[ORM\HasLifecycleCallbacks]
 class Post
 {
@@ -29,8 +25,8 @@ class Post
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\Column(length: 255)]
-    #[Gedmo\Slug(fields: ['title'], updatable: false)]
+    #[ORM\Column(length: 255, unique: true)]
+    #[Gedmo\Slug(fields: ['title'], updatable: false, unique: true)]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -106,13 +102,5 @@ class Post
         $this->author = $author;
 
         return $this;
-    }
-
-    public function getPathParams(): array
-    {
-        return [
-            'date' => $this->getPublishedAt()->format('Y-m-d'),
-            'slug' => $this->getSlug(),
-        ];
     }
 }

@@ -39,30 +39,26 @@ class PostsController extends AbstractController
     }
 
     #[Route(
-        '/posts/{date}/{slug}',
+        '/posts/{slug}',
         name: 'app_posts_show',
         requirements: [
-            'date' => Requirement::DATE_YMD,
             'slug' => Requirement::ASCII_SLUG,
         ],
         methods: ['GET']
     )]
-    #[Entity('post', expr: 'repository.findOneByPublishDateAndSlug(date, slug)')]
     public function show(Post $post): Response
     {
         return $this->render('posts/show.html.twig', compact('post'));
     }
 
     #[Route(
-        '/posts/{date}/{slug}/share',
+        '/posts/{slug}/share',
         name: 'app_posts_share',
         requirements: [
-            'date' => Requirement::DATE_YMD,
             'slug' => Requirement::ASCII_SLUG,
         ],
         methods: ['GET', 'POST']
     )]
-    #[Entity('post', expr: 'repository.findOneByPublishDateAndSlug(date, slug)')]
     public function share(Request $request, MailerInterface $mailer, Post $post): Response
     {
         $form = $this->createForm(SharePostFormType::class);

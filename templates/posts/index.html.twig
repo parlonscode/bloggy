@@ -4,7 +4,7 @@
     {% for post in pagination %}
         <article class="mb-5">
             <h2>
-                <a href="{{ path('app_posts_show', post.pathParams) }}" class="text-decoration-none">
+                <a href="{{ path('app_posts_show', { slug: post.slug }) }}" class="text-decoration-none">
                     {{ post.title }}
                 </a>
             </h2>
