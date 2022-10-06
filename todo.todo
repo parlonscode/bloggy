@@ -1,0 +1,5 @@
+1. Modifier AppFixtures pour avoir de faux commentaires
+2. Afficher ces faux commentaires au niveau de show
+3. Ajouter une section commentaire au niveau de l'admin (désactiver certains commentaires, filtrer les commentaires par article)
+4. Rajouter le formulaire de création de commentaire
+5. Valider le formulaire
