@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use Faker\Factory;
 use App\Entity\Post;
 use App\Entity\User;
+use App\Entity\Comment;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -46,6 +47,16 @@ class AppFixtures extends Fixture
             );
             $post->setAuthor($faker->boolean(50) ? $user : $admin);
             $manager->persist($post);
+
+            for ($j = 1; $j <= $faker->numberBetween(1, 5); ++$j) {
+                $comment = new Comment;
+                $comment->setName($faker->name());
+                $comment->setEmail($faker->email());
+                $comment->setBody($faker->paragraph());
+                $comment->setIsActive($faker->boolean(90));
+                $comment->setPost($post);
+                $manager->persist($comment);
+            }
         }
 
         $manager->flush();
