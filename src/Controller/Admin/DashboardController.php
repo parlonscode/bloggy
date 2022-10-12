@@ -4,13 +4,14 @@ namespace App\Controller\Admin;
 
 use App\Entity\Post;
 use App\Entity\User;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
-use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
-use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use App\Entity\Comment;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -41,6 +42,7 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Blog');
         yield MenuItem::linkToCrud('Posts', 'fa fa-file-text', Post::class);
+        yield MenuItem::linkToCrud('Comments', 'fa fa-comments', Comment::class);
 
         yield MenuItem::section('Users');
         yield MenuItem::linkToCrud('Users', 'fa fa-user', User::class);

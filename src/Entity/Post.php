@@ -143,4 +143,9 @@ class Post
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return sprintf('#%d %s', $this->getId(), $this->getTitle());
+    }
 }
