@@ -14,4 +14,24 @@
     </article>
 
     <a href="{{ path('app_posts_share', { slug: post.slug }) }}">Share this post</a>
+
+    <hr>
+
+    <section>
+        <h2>{{ post.comments|length }} comments</h2>
+
+        {% for comment in post.comments %}
+            <article>
+                <h3>
+                    Comment by <a href="mailto:{{ comment.email }}">{{ comment.name }}</a>
+                    {{ comment.createdAt|date }}
+                </h3>
+                <p>
+                    {{ comment.body|nl2br }}
+                </p>
+            </article>
+        {% else %}
+            <p>There are no comments yet.</p> 
+        {% endfor %}
+    </section>
 {% endblock %}
