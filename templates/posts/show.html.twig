@@ -21,9 +21,9 @@
         <h2>{{ post.comments|length }} comments</h2>
 
         {% for comment in post.comments %}
-            <article>
-                <h3>
-                    Comment by <a href="mailto:{{ comment.email }}">{{ comment.name }}</a>
+            <article class="{{ loop.index is odd ? 'bg-secondary bg-opacity-50' }} px-2 py-4 rounded">
+                <h3 class="fs-6 text-muted">
+                    Comment #{{ loop.index }} by <a href="mailto:{{ comment.email }}">{{ comment.name }}</a>
                     {{ comment.createdAt|date }}
                 </h3>
                 <p>
@@ -33,5 +33,17 @@
         {% else %}
             <p>There are no comments yet.</p> 
         {% endfor %}
+    </section>
+
+    <section class="mt-5">
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_start(commentForm) }}
+                    {{ form_widget(commentForm) }}
+
+                    <button type="submit" class="btn btn-primary w-100" formnovalidate>Add Comment</button>
+                {{ form_end(commentForm) }}
+            </div>
+        </div>
     </section>
 {% endblock %}

@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Form\CommentFormType;
 use App\Form\SharePostFormType;
 use App\Repository\PostRepository;
 use Symfony\Component\Mime\Address;
+use App\Repository\CommentRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,11 +46,26 @@ class PostsController extends AbstractController
         requirements: [
             'slug' => Requirement::ASCII_SLUG,
         ],
-        methods: ['GET']
+        methods: ['GET', 'POST']
     )]
-    public function show(Post $post): Response
+    public function show(Post $post, Request $request, CommentRepository $commentRepo): Response
     {
-        return $this->render('posts/show.html.twig', compact('post'));
+        $commentForm = $this->createForm(CommentFormType::class);
+
+        $commentForm->handleRequest($request);
+
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+            $comment = $commentForm->getData();
+            $comment->setPost($post);
+
+            $commentRepo->save($comment, flush: true);
+
+            $this->addFlash('success', '🚀 Comment successfully added!');
+
+            return $this->redirectToRoute('app_posts_show', ['slug' => $post->getSlug()]);
+        }
+
+        return $this->renderForm('posts/show.html.twig', compact('post', 'commentForm'));
     }
 
     #[Route(
