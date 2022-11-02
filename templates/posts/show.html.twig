@@ -18,9 +18,9 @@
     <hr>
 
     <section>
-        <h2>{{ post.comments|length }} comments</h2>
+        <h2>{{ comments|length }} comments</h2>
 
-        {% for comment in post.comments %}
+        {% for comment in comments %}
             <article class="{{ loop.index is odd ? 'bg-secondary bg-opacity-50' }} px-2 py-4 rounded">
                 <h3 class="fs-6 text-muted">
                     Comment #{{ loop.index }} by <a href="mailto:{{ comment.email }}">{{ comment.name }}</a>

@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Common\Collections\Criteria;
 
 class PostsController extends AbstractController
 {
@@ -50,6 +51,12 @@ class PostsController extends AbstractController
     )]
     public function show(Post $post, Request $request, CommentRepository $commentRepo): Response
     {
+        $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->eq('isActive', true))
+            ->orderBy(['createdAt' => 'ASC']);
+
+        $comments = $post->getComments()->matching($criteria);
+
         $commentForm = $this->createForm(CommentFormType::class);
 
         $commentForm->handleRequest($request);
@@ -65,7 +72,7 @@ class PostsController extends AbstractController
             return $this->redirectToRoute('app_posts_show', ['slug' => $post->getSlug()]);
         }
 
-        return $this->renderForm('posts/show.html.twig', compact('post', 'commentForm'));
+        return $this->renderForm('posts/show.html.twig', compact('post', 'comments', 'commentForm'));
     }
 
     #[Route(
