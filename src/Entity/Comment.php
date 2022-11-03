@@ -22,7 +22,7 @@ class Comment
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
-    #[Assert\Length(['min' => 3])]
+    #[Assert\Length(min: 3)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
@@ -32,7 +32,7 @@ class Comment
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
-    #[Assert\Length(['min' => 5])]
+    #[Assert\Length(min: 5)]
     private ?string $body = null;
 
     #[ORM\Column]
