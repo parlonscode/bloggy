@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Comment;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Comment>
@@ -37,6 +38,13 @@ class CommentRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public static function createIsActiveCriteria(): Criteria
+    {
+        return Criteria::create()
+            ->andWhere(Criteria::expr()->eq('isActive', true))
+            ->orderBy(['createdAt' => 'ASC']);
     }
 
 //    /**
