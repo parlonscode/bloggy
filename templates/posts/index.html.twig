@@ -9,6 +9,10 @@
                 </a>
             </h2>
 
+            {% if post.tags is not empty %}
+                <p>Tags: {{ post.tags|join(', ') }}</p>
+            {% endif %}
+
             <p class="text-muted fst-italic">
                 Published <time datetime="{{ post.publishedAt|date('Y-m-d H:i') }}">{{ post.publishedAt|date }}</time> by {{ post.author.email }}
             </p>

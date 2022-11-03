@@ -155,11 +155,6 @@ class Post
         return $this->getComments()->matching(CommentRepository::createIsActiveCriteria());
     }
 
-    public function __toString(): string
-    {
-        return sprintf('#%d %s', $this->getId(), $this->getTitle());
-    }
-
     /**
      * @return Collection<int, Tag>
      */
@@ -182,5 +177,10 @@ class Post
         $this->tags->removeElement($tag);
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return sprintf('#%d %s', $this->getId(), $this->getTitle());
     }
 }

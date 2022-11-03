@@ -45,7 +45,8 @@ class PostCrudController extends AbstractCrudController
             // SlugField::new('slug')->setTargetFieldName('title'),
             TextareaField::new('body')->hideOnIndex(),
             DateTimeField::new('publishedAt'),
-            AssociationField::new('author')->autocomplete(),
+            AssociationField::new('tags')->autocomplete(),
+            AssociationField::new('author'),
         ];
     }
 }
