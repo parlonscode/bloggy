@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
+use App\Entity\Tag;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Entity\Comment;
@@ -48,7 +49,14 @@ class AppFixtures extends Fixture
             $post->setAuthor($faker->boolean(50) ? $user : $admin);
             $manager->persist($post);
 
-            for ($j = 1; $j <= $faker->numberBetween(1, 5); ++$j) {
+            for ($j = 0; $j <= $faker->numberBetween(1, 3); ++$j) {
+                $tag = new Tag;
+                $tag->setName($faker->word());
+                $tag->addPost($post);
+                $manager->persist($tag);
+            }
+
+            for ($k = 1; $k <= $faker->numberBetween(1, 5); ++$k) {
                 $comment = new Comment;
                 $comment->setName($faker->name());
                 $comment->setEmail($faker->email());
