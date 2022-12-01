@@ -27,7 +27,7 @@ class PostsController extends AbstractController
     #[Route('/', name: 'app_home', methods: ['GET'])]
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
-        $query = $this->postRepository->getAllPublishedOrderedQuery();
+        $query = $this->postRepository->createAllPublishedOrderedQuery();
 
         $page = $request->query->getInt('page', 1);
 

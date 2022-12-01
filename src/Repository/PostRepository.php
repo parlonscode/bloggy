@@ -40,13 +40,19 @@ class PostRepository extends ServiceEntityRepository
         }
     }
 
-    public function getAllPublishedOrderedQuery(): Query
+    public function createAllPublishedOrderedQuery(): Query
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.publishedAt IS NOT NULL')
+            ->leftJoin('p.tags', 't')
+            ->addSelect('t')
             ->orderBy('p.publishedAt', 'DESC')
             ->getQuery()
         ;
+
+        // LEFT JOIN
+        // INNER JOIN
+        // RIGHT JOIN
     }
 
     public function findOneByPublishDateAndSlug(string $date, string $slug): ?Post

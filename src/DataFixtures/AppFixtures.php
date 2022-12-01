@@ -51,7 +51,7 @@ class AppFixtures extends Fixture
 
             for ($j = 1; $j < $faker->numberBetween(1, 3); ++$j) {
                 $tag = new Tag;
-                $tag->setName($faker->word());
+                $tag->setName($faker->unique()->word());
                 $tag->addPost($post);
                 $manager->persist($tag);
             }
