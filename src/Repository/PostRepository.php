@@ -49,10 +49,6 @@ class PostRepository extends ServiceEntityRepository
             ->orderBy('p.publishedAt', 'DESC')
             ->getQuery()
         ;
-
-        // LEFT JOIN
-        // INNER JOIN
-        // RIGHT JOIN
     }
 
     public function findOneByPublishDateAndSlug(string $date, string $slug): ?Post
