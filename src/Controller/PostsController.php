@@ -25,9 +25,23 @@ class PostsController extends AbstractController
     }
 
     #[Route('/', name: 'app_home', methods: ['GET'])]
-    public function index(Request $request, PaginatorInterface $paginator): Response
+    #[Route(
+        '/tags/{tagSlug}',
+        name: 'app_posts_by_tag',
+        requirements: [
+            'tagSlug' => Requirement::ASCII_SLUG,
+        ],
+        methods: ['GET']
+    )]
+    public function index(Request $request, PaginatorInterface $paginator, ?string $tagSlug): Response
     {
         $query = $this->postRepository->createAllPublishedOrderedQuery();
+        
+        if ($tagSlug) {
+            dd('filtrer par tags');
+        } else {
+            dd('tout afficher');
+        }
 
         $page = $request->query->getInt('page', 1);
 
@@ -68,51 +82,5 @@ class PostsController extends AbstractController
         }
 
         return $this->renderForm('posts/show.html.twig', compact('post', 'comments', 'commentForm'));
-    }
-
-    #[Route(
-        '/posts/{slug}/share',
-        name: 'app_posts_share',
-        requirements: [
-            'slug' => Requirement::ASCII_SLUG,
-        ],
-        methods: ['GET', 'POST']
-    )]
-    public function share(Request $request, MailerInterface $mailer, Post $post): Response
-    {
-        $form = $this->createForm(SharePostFormType::class);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-
-            $subject = sprintf('%s recommends you to read "%s"', $data['sender_name'], $post->getTitle());
-
-            $email = (new TemplatedEmail())
-                ->from(
-                    new Address(
-                        $this->getParameter('app.contact_email'),
-                        $this->getParameter('app.name')
-                    )
-                )
-                ->to($data['receiver_email'])
-                ->subject($subject)
-                ->htmlTemplate('emails/posts/share.html.twig')
-                ->context([
-                    'post' => $post,
-                    'sender_name' => $data['sender_name'],
-                    'sender_comments' => $data['sender_comments'],
-                ])
-            ;
-
-            $mailer->send($email);
-
-            $this->addFlash('success', '🚀 Post successfully shared with your friend!');
-
-            return $this->redirectToRoute('app_home');
-        }
-
-        return $this->renderForm('posts/share.html.twig', compact('form', 'post'));
     }
 }

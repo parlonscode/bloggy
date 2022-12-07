@@ -10,7 +10,12 @@
             </h2>
 
             {% if post.tags is not empty %}
-                <p>Tags: {{ post.tags|join(', ') }}</p>
+                <p>
+                    Tags: 
+                    {% for tag in post.tags %}
+                        <a href="#">{{ tag.name }}</a>{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
             {% endif %}
 
             <p class="text-muted fst-italic">

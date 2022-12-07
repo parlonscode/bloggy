@@ -2,8 +2,8 @@
 
 <p>
     Read "{{ post.title }}" at 
-    <a href="{{ url('app_posts_show', post.pathParams) }}">
-        {{ url('app_posts_show', post.pathParams) }}
+    <a href="{{ url('app_posts_show', { slug: post.slug }) }}">
+        {{ url('app_posts_show', { slug: post.slug }) }}
     </a>.
 </p>
 
