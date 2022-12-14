@@ -58,6 +58,6 @@ class SharedPostsController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        return $this->renderForm('shared_posts/create.html.twig', compact('form', 'post'));
+        return $this->render('shared_posts/create.html.twig', compact('form', 'post'));
     }
 }

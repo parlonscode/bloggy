@@ -81,6 +81,6 @@ class PostsController extends AbstractController
             return $this->redirectToRoute('app_posts_show', ['slug' => $post->getSlug()]);
         }
 
-        return $this->renderForm('posts/show.html.twig', compact('post', 'comments', 'commentForm'));
+        return $this->render('posts/show.html.twig', compact('post', 'comments', 'commentForm'));
     }
 }
