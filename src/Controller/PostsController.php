@@ -37,7 +37,7 @@ class PostsController extends AbstractController
             $tag = $tagRepository->findOneBySlug($tagSlug);
         }
 
-        $query = $postRepository->createAllPublishedOrderedQuery($tag);
+        $query = $postRepository->createAllPublishedOrderedByNewestQuery($tag);
 
         $page = $request->query->getInt('page', 1);
 

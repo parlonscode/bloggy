@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use DateTimeImmutable;
 use App\Entity\Tag;
 use App\Entity\Post;
 use Doctrine\ORM\Query;
@@ -41,13 +42,15 @@ class PostRepository extends ServiceEntityRepository
         }
     }
 
-    public function createAllPublishedOrderedQuery(?Tag $tag): Query
+    public function createAllPublishedOrderedByNewestQuery(?Tag $tag): Query
     {
         $queryBuilder = $this->createQueryBuilder('p')
             ->andWhere('p.publishedAt IS NOT NULL')
+            ->andWhere('p.publishedAt <= :now')
             ->leftJoin('p.tags', 't')
             ->addSelect('t')
             ->orderBy('p.publishedAt', 'DESC')
+            ->setParameter('now', new DateTimeImmutable)
         ;
 
         if ($tag) {
