@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\CommentFormType;
 use App\Form\SharePostFormType;
+use App\Repository\TagRepository;
 use App\Repository\PostRepository;
 use Symfony\Component\Mime\Address;
 use App\Repository\CommentRepository;
@@ -20,10 +21,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PostsController extends AbstractController
 {
-    public function __construct(private PostRepository $postRepository)
-    {
-    }
-
     #[Route('/', name: 'app_home', methods: ['GET'])]
     #[Route(
         '/tags/{tagSlug}',
@@ -33,15 +30,14 @@ class PostsController extends AbstractController
         ],
         methods: ['GET']
     )]
-    public function index(Request $request, PaginatorInterface $paginator, ?string $tagSlug): Response
+    public function index(Request $request, PaginatorInterface $paginator, PostRepository $postRepository, TagRepository $tagRepository, ?string $tagSlug): Response
     {
-        $query = $this->postRepository->createAllPublishedOrderedQuery();
-        
+        $tag = null;
         if ($tagSlug) {
-            dd('filtrer par tags');
-        } else {
-            dd('tout afficher');
+            $tag = $tagRepository->findOneBySlug($tagSlug);
         }
+
+        $query = $postRepository->createAllPublishedOrderedQuery($tag);
 
         $page = $request->query->getInt('page', 1);
 
@@ -51,7 +47,10 @@ class PostsController extends AbstractController
             Post::NUM_ITEMS_PER_PAGE
         );
 
-        return $this->render('posts/index.html.twig', compact('pagination'));
+        return $this->render('posts/index.html.twig', [
+            'pagination' => $pagination,
+            'tagName' => $tag?->getName()
+        ]);
     }
 
     #[Route(

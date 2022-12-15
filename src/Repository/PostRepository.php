@@ -2,10 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\Tag;
 use App\Entity\Post;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Post>
@@ -40,15 +41,21 @@ class PostRepository extends ServiceEntityRepository
         }
     }
 
-    public function createAllPublishedOrderedQuery(): Query
+    public function createAllPublishedOrderedQuery(?Tag $tag): Query
     {
-        return $this->createQueryBuilder('p')
+        $queryBuilder = $this->createQueryBuilder('p')
             ->andWhere('p.publishedAt IS NOT NULL')
             ->leftJoin('p.tags', 't')
             ->addSelect('t')
             ->orderBy('p.publishedAt', 'DESC')
-            ->getQuery()
         ;
+
+        if ($tag) {
+            $queryBuilder->andWhere(':tag MEMBER OF p.tags')
+                ->setParameter('tag', $tag);
+        }
+            
+        return $queryBuilder->getQuery();
     }
 
     public function findOneByPublishDateAndSlug(string $date, string $slug): ?Post
