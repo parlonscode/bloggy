@@ -2,15 +2,15 @@
 
 namespace App\DataFixtures;
 
-use Faker\Factory;
-use App\Entity\Tag;
-use App\Entity\Post;
-use App\Entity\User;
 use App\Entity\Comment;
-use Doctrine\Persistence\ObjectManager;
+use App\Entity\Post;
+use App\Entity\Tag;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Symfony\Component\String\Slugger\SluggerInterface;
+use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AppFixtures extends Fixture
 {
@@ -50,14 +50,14 @@ class AppFixtures extends Fixture
             $manager->persist($post);
 
             for ($j = 1; $j < $faker->numberBetween(1, 3); ++$j) {
-                $tag = new Tag;
+                $tag = new Tag();
                 $tag->setName($faker->unique()->word());
                 $tag->addPost($post);
                 $manager->persist($tag);
             }
 
             for ($k = 1; $k <= $faker->numberBetween(1, 5); ++$k) {
-                $comment = new Comment;
+                $comment = new Comment();
                 $comment->setName($faker->name());
                 $comment->setEmail($faker->email());
                 $comment->setBody($faker->paragraph());

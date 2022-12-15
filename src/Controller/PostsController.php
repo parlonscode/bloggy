@@ -4,20 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\CommentFormType;
-use App\Form\SharePostFormType;
-use App\Repository\TagRepository;
-use App\Repository\PostRepository;
-use Symfony\Component\Mime\Address;
 use App\Repository\CommentRepository;
+use App\Repository\PostRepository;
+use App\Repository\TagRepository;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PostsController extends AbstractController
 {
@@ -49,7 +44,7 @@ class PostsController extends AbstractController
 
         return $this->render('posts/index.html.twig', [
             'pagination' => $pagination,
-            'tagName' => $tag?->getName()
+            'tagName' => $tag?->getName(),
         ]);
     }
 

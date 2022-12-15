@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\Timestampable;
+use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\TagRepository;
 use Gedmo\Mapping\Annotation as Gedmo;
-use App\Entity\Traits\Timestampable;
 
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 #[ORM\Table(name: '`tags`')]

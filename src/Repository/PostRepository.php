@@ -2,12 +2,12 @@
 
 namespace App\Repository;
 
-use DateTimeImmutable;
-use App\Entity\Tag;
 use App\Entity\Post;
+use App\Entity\Tag;
+use DateTimeImmutable;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Post>
@@ -50,14 +50,14 @@ class PostRepository extends ServiceEntityRepository
             ->leftJoin('p.tags', 't')
             ->addSelect('t')
             ->orderBy('p.publishedAt', 'DESC')
-            ->setParameter('now', new DateTimeImmutable)
+            ->setParameter('now', new DateTimeImmutable())
         ;
 
         if ($tag) {
             $queryBuilder->andWhere(':tag MEMBER OF p.tags')
                 ->setParameter('tag', $tag);
         }
-            
+
         return $queryBuilder->getQuery();
     }
 
