@@ -35,26 +35,32 @@ class AppFixtures extends Fixture
         $admin->setPassword($this->passwordHasher->hashPassword($admin, 'secret123'));
         $manager->persist($admin);
 
-        for ($i = 1; $i <= 10; ++$i) {
+        $tags = [];
+        for ($j = 1; $j <= 10; ++$j) {
+            $tag = new Tag();
+            $tag->setName($faker->unique()->word());
+            $manager->persist($tag);
+            $tags[] = $tag;
+        }
+
+        for ($i = 1; $i <= 80; ++$i) {
             $post = new Post();
             $post->setTitle($faker->unique()->sentence());
             $post->setBody($faker->paragraph(10));
             $post->setPublishedAt(
                 $faker->boolean(75)
                 ? \DateTimeImmutable::createFromMutable(
-                    $faker->dateTimeBetween('-50 days', '-10 days')
+                    $faker->dateTimeBetween('-50 days', '+10 days')
                 )
                 : null
             );
             $post->setAuthor($faker->boolean(50) ? $user : $admin);
-            $manager->persist($post);
 
-            for ($j = 1; $j < $faker->numberBetween(1, 3); ++$j) {
-                $tag = new Tag();
-                $tag->setName($faker->unique()->word());
-                $tag->addPost($post);
-                $manager->persist($tag);
+            foreach ($faker->randomElements($tags, 3) as $tag) {
+                $post->addTag($tag);
             }
+
+            $manager->persist($post);
 
             for ($k = 1; $k <= $faker->numberBetween(1, 5); ++$k) {
                 $comment = new Comment();
