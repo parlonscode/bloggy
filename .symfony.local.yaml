@@ -1,0 +1,19 @@
+proxy:
+   domains:
+      - bloggy
+
+workers:
+  # built-in command that builds and watches front-end assets
+  # npm_run_watch:
+  #   cmd: ["npm", "run", "watch"]
+
+  # built-in command that builds and serves the front-end assets from a new server
+  # This server runs at localhost:8080 by default, meaning your build assets are
+  # available at localhost:8080/build. This server does not actually write
+  # the files to disk; instead it serves them from memory,
+  # allowing for hot module reloading.
+  # npm_run_dev_server:
+  #   cmd: ["npm", "run", "dev-server"]
+
+  # built-in command that starts messenger consumer
+  messenger_consume_async: ~

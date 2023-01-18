@@ -44,12 +44,9 @@ class PostRepository extends ServiceEntityRepository
     public function createAllPublishedOrderedByNewestQuery(?Tag $tag): Query
     {
         $queryBuilder = $this->createQueryBuilder('p')
-            ->andWhere('p.publishedAt IS NOT NULL')
-            ->andWhere('p.publishedAt <= :now')
             ->leftJoin('p.tags', 't')
             ->addSelect('t')
             ->orderBy('p.publishedAt', 'DESC')
-            ->setParameter('now', new \DateTimeImmutable())
         ;
 
         if ($tag) {
@@ -63,7 +60,6 @@ class PostRepository extends ServiceEntityRepository
     public function findOneByPublishDateAndSlug(string $date, string $slug): ?Post
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.publishedAt IS NOT NULL')
             ->andWhere('DATE(p.publishedAt) = :date')
             ->andWhere('p.slug = :slug')
             ->setParameters([
@@ -73,6 +69,14 @@ class PostRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult()
         ;
+    }
+
+    /**
+     * @return Post[] returns an array of Post objects similar with the given post
+     */
+    public function findSimilar(Post $post): array
+    {
+        // TODO: complete this method
     }
 
     // /**
