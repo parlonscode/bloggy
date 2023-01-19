@@ -74,9 +74,37 @@ class PostRepository extends ServiceEntityRepository
     /**
      * @return Post[] returns an array of Post objects similar with the given post
      */
-    public function findSimilar(Post $post): array
+    public function findSimilar(Post $post, int $maxResults = 4): array
     {
-        // TODO: complete this method
+        // récupérer les articles
+        // ayant des tags en commun
+        // avec l'article passé en argument ✅
+        // ordonnés de l'article ayant le plus de tags en commun
+        // à l'article ayant le moins de tags en commun.
+
+        // Dans le cas où des articles ont le même nombre de tags
+        // en commun avec $post, alors ils devront être ordonnés du plus récent
+        // au plus ancien. ✅
+
+        // On retournera au maximum 4 articles. ✅
+        // PS: Pourquoi pas la valeur "4" devra être customisable. ✅
+
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.tags', 't')
+            ->addSelect('COUNT(t.id) AS HIDDEN numberOfTags')
+            ->andWhere('t IN (:tags)')
+            ->andWhere('p != :post')
+            ->setParameters([
+                'tags' => $post->getTags(),
+                'post' => $post,
+            ])
+            ->groupBy('p.id')
+            ->addOrderBy('numberOfTags', 'DESC')
+            ->addOrderBy('p.publishedAt', 'DESC')
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     // /**

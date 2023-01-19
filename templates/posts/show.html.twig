@@ -36,6 +36,20 @@
     </section>
 
     <section class="mt-5">
+        <h2>Similar posts</h2>
+
+        {% for post in similarPosts %}
+            <p>
+                <a href="{{ path('app_posts_show', { slug: post.slug }) }}">
+                    {{ post.title }}
+                </a>
+            </p>
+        {% else %}
+            There are no similar posts yet.
+        {% endfor %}
+    </section>
+
+    <section class="mt-5">
         <div class="row">
             <div class="col-md-4">
                 {{ form_start(commentForm) }}

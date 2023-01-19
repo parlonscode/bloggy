@@ -23,7 +23,7 @@ class SharedPostsController extends AbstractController
         ],
         methods: ['GET', 'POST']
     )]
-    public function create(Request $request, MailerInterface $mailer, Post $post): Response
+    public function create(Request $request, Post $post, MailerInterface $mailer): Response
     {
         $form = $this->createForm(SharePostFormType::class);
 
