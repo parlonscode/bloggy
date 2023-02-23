@@ -2,11 +2,12 @@
 
 namespace App\Repository;
 
-use App\Entity\Post;
 use App\Entity\Tag;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Post;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Post>
@@ -76,30 +77,32 @@ class PostRepository extends ServiceEntityRepository
      */
     public function findSimilar(Post $post, int $maxResults = 4): array
     {
-        // récupérer les articles
-        // ayant des tags en commun
-        // avec l'article passé en argument ✅
-        // ordonnés de l'article ayant le plus de tags en commun
-        // à l'article ayant le moins de tags en commun.
-
-        // Dans le cas où des articles ont le même nombre de tags
-        // en commun avec $post, alors ils devront être ordonnés du plus récent
-        // au plus ancien. ✅
-
-        // On retournera au maximum 4 articles. ✅
-        // PS: Pourquoi pas la valeur "4" devra être customisable. ✅
-
         return $this->createQueryBuilder('p')
-            ->leftJoin('p.tags', 't')
-            ->addSelect('COUNT(t.id) AS HIDDEN numberOfTags')
+            ->join('p.tags', 't')
+            ->addSelect('COUNT(t) AS HIDDEN numberOfTags')
             ->andWhere('t IN (:tags)')
             ->andWhere('p != :post')
             ->setParameters([
                 'tags' => $post->getTags(),
                 'post' => $post,
             ])
-            ->groupBy('p.id')
+            ->groupBy('p')
             ->addOrderBy('numberOfTags', 'DESC')
+            ->addOrderBy('p.publishedAt', 'DESC')
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findMostCommented(int $maxResults): array
+    {
+         return $this->createQueryBuilder('p')
+            ->join('p.comments', 'c')
+            ->addSelect('COUNT(c) AS HIDDEN numberOfComments')
+            ->andWhere('c.isActive = true')
+            ->groupBy('p')
+            ->orderBy('numberOfComments', 'DESC')
             ->addOrderBy('p.publishedAt', 'DESC')
             ->setMaxResults($maxResults)
             ->getQuery()

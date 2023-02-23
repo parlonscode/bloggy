@@ -1,0 +1,16 @@
+<h2>🧁 What's new?</h2>
+
+<p>
+    Uh oh! {{ totalPosts }} posts written so far.
+</p>
+
+<div>
+    <h3>✨ Latest posts</h3>
+    {{ include('posts/_list.html.twig', { posts: latestPosts }) }}
+</div>
+
+<div>
+    <h3>💬 Most commented Posts</h3>
+    {{ include('posts/_list.html.twig', { posts: mostCommentedPosts }) }}
+</div>
+

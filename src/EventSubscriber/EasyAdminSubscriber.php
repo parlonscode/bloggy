@@ -7,8 +7,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class EasyAdminSubscriber implements EventSubscriberInterface
@@ -17,13 +15,6 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         private readonly UserPasswordHasherInterface $userPasswordHasherInterface,
         private readonly EntityManagerInterface $em
     ) {
-    }
-
-    public function onKernelRequest(RequestEvent $event): void
-    {
-        if ('app_admin' === $event->getRequest()->attributes->get('_route')) {
-            $this->em->getFilters()->disable('published_filter');
-        }
     }
 
     public function updateUserPassword(BeforeEntityPersistedEvent|BeforeEntityUpdatedEvent $event): void
@@ -42,7 +33,6 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         return [
             BeforeEntityPersistedEvent::class => 'updateUserPassword',
             BeforeEntityUpdatedEvent::class => 'updateUserPassword',
-            KernelEvents::REQUEST => 'onKernelRequest',
         ];
     }
 }

@@ -42,10 +42,11 @@ class PostsController extends AbstractController
             Post::NUM_ITEMS_PER_PAGE
         );
 
+        // s-maxage is overriden somewhere. I need to find where 
         return $this->render('posts/index.html.twig', [
             'pagination' => $pagination,
             'tagName' => $tag?->getName(),
-        ]);
+        ])->setSharedMaxAge(30);
     }
 
     #[Route(
@@ -54,7 +55,7 @@ class PostsController extends AbstractController
         requirements: [
             'slug' => Requirement::ASCII_SLUG,
         ],
-        methods: ['GET', 'POST']
+        methods: ['GET', 'POST'],
     )]
     public function show(Request $request, Post $post, PostRepository $postRepository, CommentRepository $commentRepo): Response
     {
@@ -78,5 +79,18 @@ class PostsController extends AbstractController
         }
 
         return $this->render('posts/show.html.twig', compact('post', 'comments', 'commentForm', 'similarPosts'));
+    }
+
+    #[Route('/posts/featured-content', name: 'app_posts_featured_content', methods: ['GET'], priority: 10)]
+    public function featuredContent(PostRepository $postRepository, int $maxResults = 5): Response
+    {
+        $totalPosts = $postRepository->count([]);
+        $latestPosts = $postRepository->findBy([], ['publishedAt' => 'DESC'], $maxResults);
+        $mostCommentedPosts = $postRepository->findMostCommented($maxResults);
+
+        return $this->render(
+            'posts/_featured_content.html.twig',
+            compact('totalPosts', 'latestPosts', 'mostCommentedPosts')
+        )->setSharedMaxAge(50);
     }
 }

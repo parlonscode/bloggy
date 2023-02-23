@@ -6,11 +6,13 @@
     <article>
         <h1>{{ post.title }}</h1>
 
+        <p>{{ post.tags|join(', ') }}</p>
+
         <p>
             Published <time datetime="{{ post.publishedAt|date('Y-m-d H:i') }}">{{ post.publishedAt|date }}</time> by {{ post.author.email }}
         </p>
 
-        <p>{{ post.body|nl2br }}</p>
+        <p>{{ post.body|raw }}</p>
     </article>
 
     <a href="{{ path('app_posts_share', { slug: post.slug }) }}">Share this post</a>
@@ -39,6 +41,7 @@
         <h2>Similar posts</h2>
 
         {% for post in similarPosts %}
+            {# <p>{{ post.tags|join(', ') }}</p> #}
             <p>
                 <a href="{{ path('app_posts_show', { slug: post.slug }) }}">
                     {{ post.title }}
@@ -51,7 +54,7 @@
 
     <section class="mt-5">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 {{ form_start(commentForm) }}
                     {{ form_widget(commentForm) }}
 

@@ -13,8 +13,8 @@ framework:
         cookie_samesite: lax
         storage_factory_id: session.storage.factory.native
 
-    #esi: true
-    #fragments: true
+    esi: true
+    fragments: true
     php_errors:
         log: true
 
@@ -23,3 +23,7 @@ when@test:
         test: true
         session:
             storage_factory_id: session.storage.factory.mock_file
+
+when@dev:
+    framework:
+        http_cache: true
