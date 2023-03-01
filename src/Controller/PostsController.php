@@ -4,15 +4,16 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\CommentFormType;
-use App\Repository\CommentRepository;
-use App\Repository\PostRepository;
 use App\Repository\TagRepository;
+use App\Repository\PostRepository;
+use App\Repository\CommentRepository;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\EventListener\AbstractSessionListener;
 
 class PostsController extends AbstractController
 {
@@ -42,11 +43,16 @@ class PostsController extends AbstractController
             Post::NUM_ITEMS_PER_PAGE
         );
 
-        // s-maxage is overriden somewhere. I need to find where 
-        return $this->render('posts/index.html.twig', [
+        $response = $this->render('posts/index.html.twig', [
             'pagination' => $pagination,
             'tagName' => $tag?->getName(),
         ])->setSharedMaxAge(30);
+
+        $response->headers->set(
+            AbstractSessionListener::NO_AUTO_CACHE_CONTROL_HEADER, 'true'
+        );
+        
+        return $response;
     }
 
     #[Route(
