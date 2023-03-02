@@ -24,6 +24,6 @@ when@test:
         session:
             storage_factory_id: session.storage.factory.mock_file
 
-when@dev:
-    framework:
-        http_cache: true
+# when@dev:
+#     framework:
+#         http_cache: true
