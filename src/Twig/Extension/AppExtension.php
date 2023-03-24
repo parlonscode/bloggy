@@ -15,7 +15,7 @@ class AppExtension extends AbstractExtension
             // If your filter generates SAFE HTML, you should add a third
             // parameter: ['is_safe' => ['html']]
             // Reference: https://twig.symfony.com/doc/3.x/advanced.html#automatic-escaping
-            new TwigFilter('shasum256', [AppExtensionRuntime::class, 'shasum256']),
+            // new TwigFilter('shasum256', [AppExtensionRuntime::class, 'shasum256']),
         ];
     }
 
@@ -23,8 +23,8 @@ class AppExtension extends AbstractExtension
     {
         return [
             // new TwigFunction('total_posts', [AppExtensionRuntime::class, 'totalPosts']),
-            new TwigFunction('latest_posts', [AppExtensionRuntime::class, 'latestPosts']),
-            new TwigFunction('most_commented_posts', [AppExtensionRuntime::class, 'mostCommentedPosts']),
+            // new TwigFunction('latest_posts', [AppExtensionRuntime::class, 'latestPosts']),
+            // new TwigFunction('most_commented_posts', [AppExtensionRuntime::class, 'mostCommentedPosts']),
         ];
     }
 }
