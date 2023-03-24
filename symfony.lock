@@ -113,11 +113,35 @@
     "laminas/laminas-code": {
         "version": "4.5.1"
     },
+    "meilisearch/search-bundle": {
+        "version": "0.10",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "0.10",
+            "ref": "f0730f97441a5391832fb176305f69abe86b70a3"
+        },
+        "files": [
+            "config/packages/meilisearch.yaml"
+        ]
+    },
     "monolog/monolog": {
         "version": "2.4.0"
     },
     "nikic/php-parser": {
         "version": "v4.13.2"
+    },
+    "nyholm/psr7": {
+        "version": "1.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "0cd4d2d0e7f646fda75f9944f747a56e6ed13d4c"
+        },
+        "files": [
+            "config/packages/nyholm_psr7.yaml"
+        ]
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"

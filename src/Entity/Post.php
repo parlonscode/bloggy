@@ -2,14 +2,16 @@
 
 namespace App\Entity;
 
-use App\Entity\Traits\Timestampable;
-use App\Repository\CommentRepository;
-use App\Repository\PostRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PostRepository;
+use Meilisearch\Bundle\Searchable;
+use App\Entity\Traits\Timestampable;
+use App\Repository\CommentRepository;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 #[ORM\Table(name: '`posts`')]
@@ -23,9 +25,11 @@ class Post
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(Searchable::NORMALIZATION_GROUP)]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(Searchable::NORMALIZATION_GROUP)]
     private ?string $title = null;
 
     #[ORM\Column(length: 255, unique: true)]
@@ -33,9 +37,11 @@ class Post
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(Searchable::NORMALIZATION_GROUP)]
     private ?string $body = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(Searchable::NORMALIZATION_GROUP)]
     private ?\DateTimeImmutable $publishedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'posts')]

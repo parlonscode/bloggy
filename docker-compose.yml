@@ -15,7 +15,21 @@ services:
       # - ./docker/db/data:/var/lib/postgresql/data:rw
 ###< doctrine/doctrine-bundle ###
 
+###> meilisearch/search-bundle ###
+  meilisearch:
+    image: getmeili/meilisearch:${MEILISEARCH_VERSION:-v1.0}
+    environment:
+      # You should definitely change the master key in production
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY:-!ChangeMe!}
+    volumes:
+      - meilisearch_data:/meili_data
+###< meilisearch/search-bundle ###
+
 volumes:
 ###> doctrine/doctrine-bundle ###
   db-data:
 ###< doctrine/doctrine-bundle ###
+
+###> meilisearch/search-bundle ###
+  meilisearch_data:
+###< meilisearch/search-bundle ###
