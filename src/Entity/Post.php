@@ -33,6 +33,7 @@ class Post
     private ?string $title = null;
 
     #[ORM\Column(length: 255, unique: true)]
+    #[Groups(Searchable::NORMALIZATION_GROUP)]
     #[Gedmo\Slug(fields: ['title'], updatable: false)]
     private ?string $slug = null;
 
@@ -182,6 +183,11 @@ class Post
         $this->tags->removeElement($tag);
 
         return $this;
+    }
+
+    public function isPublished(): bool
+    {
+        return !is_null($this->getPublishedAt()) && $this->getPublishedAt() <= new \DateTimeImmutable;
     }
 
     public function __toString(): string

@@ -7,6 +7,7 @@ meilisearch:
         # See https://github.com/meilisearch/meilisearch-symfony/wiki/configure-searchable-data
         - name: posts
           class: App\Entity\Post
+          index_if: isPublished
           enable_serializer_groups: true
           settings:
-            searchableAttributes: ['title', 'body', 'publishedAt']
+            searchableAttributes: ['title', 'body']

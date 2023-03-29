@@ -12,10 +12,10 @@
             <article class="my-3 {{ loop.index is odd ? 'bg-light' : '' }} py-4 px-2 rounded">
                 <h4>
                     #{{ loop.index }}. <a href="{{ path('app_posts_show', {slug: post.slug}) }}" class="text-decoration-none">
-                        {{ post.title }}
+                        {{ post._formatted.title|raw }}
                     </a>
                 </h4>
-                {{ post.body }}
+                {{ post._formatted.body|raw }}
             </article>
         {% else %}
             <p>There are no results for your query.</p>
