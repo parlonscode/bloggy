@@ -48,6 +48,8 @@ class PostsController extends AbstractController
             'tagName' => $tag?->getName(),
         ])->setSharedMaxAge(30);
 
+        // We do this otherwise Symfony will override the Cache-Control header
+        // if the session exists
         $response->headers->set(
             AbstractSessionListener::NO_AUTO_CACHE_CONTROL_HEADER, 'true'
         );
