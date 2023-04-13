@@ -20,21 +20,15 @@
     <hr>
 
     <section>
-        <h2>{{ comments|length }} comments</h2>
+        <h2 id="comments-count">{{ comments|length }} comments</h2>
 
-        {% for comment in comments %}
-            <article class="{{ loop.index is odd ? 'bg-secondary bg-opacity-50' }} px-2 py-4 rounded">
-                <h3 class="fs-6 text-muted">
-                    Comment #{{ loop.index }} by <a href="mailto:{{ comment.email }}">{{ comment.name }}</a>
-                    {{ comment.createdAt|date }}
-                </h3>
-                <p>
-                    {{ comment.body|nl2br }}
-                </p>
-            </article>
-        {% else %}
-            <p>There are no comments yet.</p> 
-        {% endfor %}
+        <div id="comment-list">
+            {% for comment in comments %}
+                {{ include('comments/_comment.html.twig', { comment, index: loop.index }) }}
+            {% else %}
+                <p>There are no comments yet.</p> 
+            {% endfor %}
+        </div>
     </section>
 
     <section class="mt-5">
@@ -52,15 +46,17 @@
         {% endfor %}
     </section>
 
-    <section class="mt-5">
-        <div class="row">
-            <div class="col-md-6">
-                {{ form_start(commentForm) }}
-                    {{ form_widget(commentForm) }}
+    <turbo-frame id="new-comment-form">
+        <section class="mt-5">
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_start(commentForm) }}
+                        {{ form_widget(commentForm) }}
 
-                    <button type="submit" class="btn btn-primary w-100" formnovalidate>Add Comment</button>
-                {{ form_end(commentForm) }}
+                        <button type="submit" class="btn btn-primary w-100" formnovalidate>Add Comment</button>
+                    {{ form_end(commentForm) }}
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </turbo-frame>
 {% endblock %}

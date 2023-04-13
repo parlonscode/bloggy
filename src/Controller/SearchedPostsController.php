@@ -5,11 +5,10 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\SearchFormType;
 use Meilisearch\Bundle\SearchService;
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SearchedPostsController extends AbstractController
 {
@@ -18,7 +17,7 @@ class SearchedPostsController extends AbstractController
     {
         $searchForm = $this->createForm(SearchFormType::class, null, [
             'method' => 'GET',
-            'csrf_protection' => false
+            'csrf_protection' => false,
         ]);
 
         $searchQuery = $request->query->get('q');
@@ -31,7 +30,7 @@ class SearchedPostsController extends AbstractController
                 'highlightPreTag' => '<mark>',
                 'highlightPostTag' => '</mark>',
                 'attributesToCrop' => ['body'],
-                'cropLength' => 20
+                'cropLength' => 20,
             ]);
             $results = $searchResponse['hits'];
         }
@@ -39,8 +38,8 @@ class SearchedPostsController extends AbstractController
         return $this->render('searched_posts/create.html.twig', [
             'searchQuery' => $searchQuery,
             'searchForm' => $searchForm,
-            "tableau" => ['nom' => 'Parlons Code', 'age' => 6],
-            'results' => $results ?? []
+            'tableau' => ['nom' => 'Parlons Code', 'age' => 6],
+            'results' => $results ?? [],
         ]);
     }
 }

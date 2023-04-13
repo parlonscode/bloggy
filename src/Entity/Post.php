@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-use App\Repository\PostRepository;
-use Meilisearch\Bundle\Searchable;
 use App\Entity\Traits\Timestampable;
 use App\Repository\CommentRepository;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\Common\Collections\Collection;
+use App\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Meilisearch\Bundle\Searchable;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
@@ -187,7 +187,7 @@ class Post
 
     public function isPublished(): bool
     {
-        return !is_null($this->getPublishedAt()) && $this->getPublishedAt() <= new \DateTimeImmutable;
+        return !is_null($this->getPublishedAt()) && $this->getPublishedAt() <= new \DateTimeImmutable();
     }
 
     public function __toString(): string

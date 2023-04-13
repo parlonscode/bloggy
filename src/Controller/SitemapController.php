@@ -3,11 +3,10 @@
 namespace App\Controller;
 
 use App\Repository\PostRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SitemapController extends AbstractController
 {
@@ -28,7 +27,7 @@ class SitemapController extends AbstractController
                 'loc' => $this->generateUrl('app_posts_show', ['slug' => $post->getSlug()]),
                 'lastmod' => $post->getUpdatedAt()->format('Y-m-d'),
                 'changefreq' => 'weekly',
-                'priority' => 0.9
+                'priority' => 0.9,
             ];
         }
 

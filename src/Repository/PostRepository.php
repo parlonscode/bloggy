@@ -2,12 +2,11 @@
 
 namespace App\Repository;
 
-use App\Entity\Tag;
 use App\Entity\Post;
-use Doctrine\ORM\Query;
-use Doctrine\ORM\Query\Expr\Join;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<Post>
@@ -97,16 +96,16 @@ class PostRepository extends ServiceEntityRepository
 
     public function findMostCommented(int $maxResults): array
     {
-         return $this->createQueryBuilder('p')
-            ->join('p.comments', 'c')
-            ->addSelect('COUNT(c) AS HIDDEN numberOfComments')
-            ->andWhere('c.isActive = true')
-            ->groupBy('p')
-            ->orderBy('numberOfComments', 'DESC')
-            ->addOrderBy('p.publishedAt', 'DESC')
-            ->setMaxResults($maxResults)
-            ->getQuery()
-            ->getResult()
+        return $this->createQueryBuilder('p')
+           ->join('p.comments', 'c')
+           ->addSelect('COUNT(c) AS HIDDEN numberOfComments')
+           ->andWhere('c.isActive = true')
+           ->groupBy('p')
+           ->orderBy('numberOfComments', 'DESC')
+           ->addOrderBy('p.publishedAt', 'DESC')
+           ->setMaxResults($maxResults)
+           ->getQuery()
+           ->getResult()
         ;
     }
 

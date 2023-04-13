@@ -1,0 +1,9 @@
+<article class="{{ index is odd ? 'bg-secondary bg-opacity-50' }} px-2 py-4 rounded">
+    <h3 class="fs-6 text-muted">
+        Comment #{{ index }} by <a href="mailto:{{ comment.email }}">{{ comment.name }}</a>
+        {{ comment.createdAt|date }}
+    </h3>
+    <p>
+        {{ comment.body|nl2br }}
+    </p>
+</article>
