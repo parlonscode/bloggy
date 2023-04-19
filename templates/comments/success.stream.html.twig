@@ -1,11 +1,21 @@
 <turbo-stream action="update" target="comments-count">
     <template>
-        xxx comments
+        {{ commentsCount }} comments
     </template>
 </turbo-stream>
 
 <turbo-stream action="append" target="comment-list">
     <template>
-        {{ include('comments/_comment.html.twig', { comment, index: 2 }) }}
+        {{ include('comments/_comment.html.twig', { comment, index: commentsCount }) }}
+    </template>
+</turbo-stream>
+
+<turbo-stream action="update" target="new-comment-form">
+    <template>
+        <div class="alert alert-success" role="alert" data-controller="auto-hide">
+            ✅ Comment successfully added!
+        </div>
+
+        {{ include('comments/_form.html.twig', { commentForm }) }}
     </template>
 </turbo-stream>

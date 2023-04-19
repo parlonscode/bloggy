@@ -11,6 +11,15 @@ class AppExtensionRuntime implements RuntimeExtensionInterface
     {
     }
 
+    public function pluralize(int $quantity, string $singular, ?string $plural = null): string
+    {
+        $plural ??= $singular.'s';
+
+        $singularOrPlural = 1 === $quantity ? $singular : $plural;
+
+        return "$quantity $singularOrPlural";
+    }
+
     // public function totalPosts(): int
     // {
     //     return $this->postRepository->count([]);

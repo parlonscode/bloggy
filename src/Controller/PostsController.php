@@ -74,6 +74,8 @@ class PostsController extends AbstractController
 
         $commentForm = $this->createForm(CommentFormType::class);
 
+        $emptyCommentForm = clone $commentForm;
+
         $commentForm->handleRequest($request);
 
         if ($commentForm->isSubmitted() && $commentForm->isValid()) {
@@ -86,7 +88,11 @@ class PostsController extends AbstractController
                 // If the request comes from Turbo, set the content type as text/vnd.turbo-stream.html and only send the HTML to update
                 $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
-                return $this->render('comments/success.stream.html.twig', compact('comment'));
+                return $this->render('comments/success.stream.html.twig', [
+                    'comment' => $comment,
+                    'commentsCount' => $comments->count() + 1,
+                    'commentForm' => $emptyCommentForm,
+                ]);
             }
 
             $this->addFlash('success', '🚀 Comment successfully added!');

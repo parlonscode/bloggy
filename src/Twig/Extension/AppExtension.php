@@ -22,6 +22,7 @@ class AppExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
+            new TwigFunction('pluralize', [AppExtensionRuntime::class, 'pluralize']),
             // new TwigFunction('total_posts', [AppExtensionRuntime::class, 'totalPosts']),
             // new TwigFunction('latest_posts', [AppExtensionRuntime::class, 'latestPosts']),
             // new TwigFunction('most_commented_posts', [AppExtensionRuntime::class, 'mostCommentedPosts']),

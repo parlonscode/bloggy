@@ -20,7 +20,7 @@
     <hr>
 
     <section>
-        <h2 id="comments-count">{{ comments|length }} comments</h2>
+        <h2 id="comments-count">{{ pluralize(comments|length, 'comment') }}</h2>
 
         <div id="comment-list">
             {% for comment in comments %}
@@ -46,17 +46,15 @@
         {% endfor %}
     </section>
 
-    <turbo-frame id="new-comment-form">
-        <section class="mt-5">
-            <div class="row">
-                <div class="col-md-6">
-                    {{ form_start(commentForm) }}
-                        {{ form_widget(commentForm) }}
-
-                        <button type="submit" class="btn btn-primary w-100" formnovalidate>Add Comment</button>
-                    {{ form_end(commentForm) }}
-                </div>
+    <section class="mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Add a new comment</h2>
+                
+                <turbo-frame id="new-comment-form">
+                    {{ include('comments/_form.html.twig', { commentForm }) }}
+                </turbo-frame>
             </div>
-        </section>
-    </turbo-frame>
+        </div>
+    </section>
 {% endblock %}
