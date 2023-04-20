@@ -7,8 +7,19 @@ import $ from 'jquery';
 */
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
+    static values = { 
+        duration: { type: Number, default: 3 },
+        scrollTargetId: String
+    };
+
     connect() {
-        // Autohide element after 3 seconds
-        setTimeout(() => $(this.element).fadeOut(), 3 * 1000);
+        setTimeout(() => {
+            $(this.element).fadeOut();
+
+            if (this.scrollTargetIdValue !== '') {
+                document.getElementById(this.scrollTargetIdValue)
+                    .scrollIntoView({ behavior: 'smooth' });
+            }
+        }, this.durationValue * 1000);
     }
 }

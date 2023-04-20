@@ -19,18 +19,6 @@
 
     <hr>
 
-    <section>
-        <h2 id="comments-count">{{ pluralize(comments|length, 'comment') }}</h2>
-
-        <div id="comment-list">
-            {% for comment in comments %}
-                {{ include('comments/_comment.html.twig', { comment, index: loop.index }) }}
-            {% else %}
-                <p>There are no comments yet.</p> 
-            {% endfor %}
-        </div>
-    </section>
-
     <section class="mt-5">
         <h2>Similar posts</h2>
 
@@ -44,6 +32,18 @@
         {% else %}
             There are no similar posts yet.
         {% endfor %}
+    </section>
+
+    <section class="mt-5">
+        <h2 id="comments-count">{{ pluralize(comments|length, 'comment') }}</h2>
+
+        <div id="comment-list">
+            {% for comment in comments %}
+                {{ include('comments/_comment.html.twig', { comment, index: loop.index }) }}
+            {% else %}
+                <p>There are no comments yet.</p> 
+            {% endfor %}
+        </div>
     </section>
 
     <section class="mt-5">

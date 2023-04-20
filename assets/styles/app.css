@@ -1,5 +1,9 @@
 @import "~bootstrap";
 
+html {
+  scroll-behavior: auto !important;
+}
+
 .turbo-progress-bar {
   height: 10px;
   background-color: green;
