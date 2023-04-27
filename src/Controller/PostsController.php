@@ -4,17 +4,19 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\CommentFormType;
-use App\Repository\CommentRepository;
-use App\Repository\PostRepository;
 use App\Repository\TagRepository;
+use Symfony\UX\Turbo\TurboBundle;
+use App\Repository\PostRepository;
+use App\Repository\CommentRepository;
+use Symfony\Component\Mercure\Update;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\EventListener\AbstractSessionListener;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
-use Symfony\UX\Turbo\TurboBundle;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\EventListener\AbstractSessionListener;
 
 class PostsController extends AbstractController
 {
@@ -66,7 +68,7 @@ class PostsController extends AbstractController
         ],
         methods: ['GET', 'POST'],
     )]
-    public function show(Request $request, Post $post, PostRepository $postRepository, CommentRepository $commentRepo): Response
+    public function show(Request $request, Post $post, PostRepository $postRepository, CommentRepository $commentRepo, HubInterface $hub): Response
     {
         $similarPosts = $postRepository->findSimilar($post);
 
@@ -85,14 +87,23 @@ class PostsController extends AbstractController
             $commentRepo->save($comment, flush: true);
 
             if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
-                // If the request comes from Turbo, set the content type as text/vnd.turbo-stream.html and only send the HTML to update
-                $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+                $hub->publish(new Update(
+                    "post_{$post->getId()}_comments",
+                    $this->renderView('comments/success.stream.html.twig', [
+                        'comment' => $comment,
+                        'commentsCount' => $comments->count() + 1,
+                        'commentForm' => $emptyCommentForm,
+                    ])
+                ));
 
-                return $this->render('comments/success.stream.html.twig', [
-                    'comment' => $comment,
-                    'commentsCount' => $comments->count() + 1,
-                    'commentForm' => $emptyCommentForm,
-                ]);
+                // If the request comes from Turbo, set the content type as text/vnd.turbo-stream.html and only send the HTML to update
+                // $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
+
+                // return $this->render('comments/success.stream.html.twig', [
+                //     'comment' => $comment,
+                //     'commentsCount' => $comments->count() + 1,
+                //     'commentForm' => $emptyCommentForm,
+                // ]);
             }
 
             $this->addFlash('success', '🚀 Comment successfully added!');

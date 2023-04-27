@@ -5,8 +5,6 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\SearchFormType;
 use Meilisearch\Bundle\SearchService;
-use Symfony\Component\Mercure\Update;
-use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,13 +13,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class SearchedPostsController extends AbstractController
 {
     #[Route('/search', name: 'app_searched_posts_create')]
-    public function create(Request $request, SearchService $searchService, HubInterface $hub): Response
+    public function create(Request $request, SearchService $searchService): Response
     {
-        $hub->publish(new Update(
-            'football',
-            '<turbo-stream action="update" target="comments-count"><template>Bye comments</template></turbo-stream>'
-        ));
-
         $searchForm = $this->createForm(SearchFormType::class, null, [
             'method' => 'GET',
             'csrf_protection' => false,

@@ -3,7 +3,7 @@
 {% block title post.title %}
 
 {% block body %}
-    <div {{ turbo_stream_listen('football') }}></div>
+    <div {{ turbo_stream_listen("post_#{post.id}_comments") }}></div>
     
     <article>
         <h1>{{ post.title }}</h1>
