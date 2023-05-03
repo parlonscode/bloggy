@@ -132,12 +132,12 @@
         "version": "v4.13.2"
     },
     "nyholm/psr7": {
-        "version": "1.5",
+        "version": "1.8",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
             "version": "1.0",
-            "ref": "0cd4d2d0e7f646fda75f9944f747a56e6ed13d4c"
+            "ref": "a9f242fbadb1407681c019f38c67ab448b056341"
         },
         "files": [
             "config/packages/nyholm_psr7.yaml"
