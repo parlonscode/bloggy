@@ -4,19 +4,19 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\CommentFormType;
-use App\Repository\TagRepository;
-use Symfony\UX\Turbo\TurboBundle;
-use App\Repository\PostRepository;
 use App\Repository\CommentRepository;
-use Symfony\Component\Mercure\Update;
+use App\Repository\PostRepository;
+use App\Repository\TagRepository;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\Mercure\HubInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\EventListener\AbstractSessionListener;
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpKernel\EventListener\AbstractSessionListener;
+use Symfony\UX\Turbo\TurboBundle;
 
 class PostsController extends AbstractController
 {
@@ -111,7 +111,10 @@ class PostsController extends AbstractController
             return $this->redirectToRoute('app_posts_show', ['slug' => $post->getSlug()]);
         }
 
-        return $this->render('posts/show.html.twig', compact('post', 'comments', 'commentForm', 'similarPosts'));
+        $previousPost = $postRepository->findPreviousPost($post);
+        $nextPost = $postRepository->findNextPost($post);
+
+        return $this->render('posts/show.html.twig', compact('post', 'comments', 'commentForm', 'similarPosts', 'previousPost', 'nextPost'));
     }
 
     #[Route('/posts/featured-content', name: 'app_posts_featured_content', methods: ['GET'], priority: 10)]

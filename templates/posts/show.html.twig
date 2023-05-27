@@ -21,6 +21,15 @@
 
     <hr>
 
+    {% if previousPost %}
+        <a href="{{ path('app_posts_show', { slug: previousPost.slug }) }}">Previous Post</a>
+    {% endif %}
+    {% if nextPost %}
+        <a href="{{ path('app_posts_show', { slug: nextPost.slug }) }}">Next Post</a>
+    {% endif %}
+
+    <hr>
+
     <section class="mt-5">
         <h2>Similar posts</h2>
 

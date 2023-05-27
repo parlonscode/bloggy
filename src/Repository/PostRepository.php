@@ -71,6 +71,30 @@ class PostRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findPreviousPost(Post $post): ?Post
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.publishedAt < :postPublishedAt')
+            ->setParameter('postPublishedAt', $post->getPublishedAt())
+            ->orderBy('p.publishedAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    public function findNextPost(Post $post): ?Post
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.publishedAt > :postPublishedAt')
+            ->setParameter('postPublishedAt', $post->getPublishedAt())
+            ->orderBy('p.publishedAt', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     /**
      * @return Post[] returns an array of Post objects similar with the given post
      */
